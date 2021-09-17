@@ -11,6 +11,7 @@ namespace APICore.Data.Model
         public byte[] MessageTimestamp { get; set; }
 
         public virtual Channel MessageChannel { get; set; }
+
         public virtual User MessageUser { get; set; }
     }
 }

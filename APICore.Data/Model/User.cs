@@ -20,6 +20,7 @@ namespace APICore.Data.Model
         public int UserStatus { get; set; }
 
         public virtual Node UserNavigation { get; set; }
+
         public virtual ICollection<Message> Messages { get; set; }
     }
 }
