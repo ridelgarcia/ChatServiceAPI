@@ -1,6 +1,5 @@
 ﻿using Newtonsoft.Json;
 
-
 namespace APICore.API.BasicResponses
 {
     public class ApiResponse

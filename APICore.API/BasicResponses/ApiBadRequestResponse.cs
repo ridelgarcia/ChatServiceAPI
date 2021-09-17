@@ -2,11 +2,9 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Threading.Tasks;
 
 namespace APICore.API.BasicResponses
 {
-    
     public class ApiBadRequestResponse : ApiResponse
 
     {
@@ -24,5 +22,4 @@ namespace APICore.API.BasicResponses
 
         public IEnumerable<string> Errors { get; }
     }
-    
 }

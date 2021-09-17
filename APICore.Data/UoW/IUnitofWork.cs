@@ -1,7 +1,8 @@
-﻿using System;
-using System.Threading.Tasks;
-using APICore.Data.Model;
+﻿using APICore.Data.Model;
 using APICore.Data.Repository;
+using System;
+using System.Threading.Tasks;
+
 namespace APICore.Data.UoW
 {
     public interface IUnitOfWork : IDisposable
@@ -13,6 +14,7 @@ namespace APICore.Data.UoW
         IGenericRepository<Node> NodeRepository { get; set; }
         IGenericRepository<Reservation> ReservationRepository { get; set; }
         IGenericRepository<User> UserRepository { get; set; }
+
         Task<int> CommitAsync();
     }
 }

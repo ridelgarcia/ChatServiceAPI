@@ -1,18 +1,17 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using APICore.Common.DTO.Response;
+﻿using APICore.Common.DTO.Response;
 using APICore.Data.Model;
 using APICore.Data.UoW;
 using APICore.Services.Interfaces;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
 
 namespace APICore.Services.Impls
 {
     public class ContactTypeService : IContactTypeService
     {
         private IUnitOfWork _uow;
+
         public ContactTypeService(IUnitOfWork uow)
         {
             _uow = uow;

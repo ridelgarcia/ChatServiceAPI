@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace APICore.Common.DTO.Response
 {
@@ -10,12 +8,13 @@ namespace APICore.Common.DTO.Response
 
         public string ContactTypeName { get; set; }
     }
+
     public class GetAllContactTypeResponse
     {
         public GetAllContactTypeResponse()
-        { 
-        
+        {
         }
+
         public List<ContactTypeResponse> ContactTypeList { get; set; }
     }
 }
