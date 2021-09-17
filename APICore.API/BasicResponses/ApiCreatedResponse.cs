@@ -1,9 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
-
-namespace APICore.API.BasicResponses
+﻿namespace APICore.API.BasicResponses
 {
     public class ApiCreatedResponse : ApiResponse
     {

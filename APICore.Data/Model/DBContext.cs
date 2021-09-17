@@ -1,6 +1,4 @@
-﻿using System;
-using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Metadata;
+﻿using Microsoft.EntityFrameworkCore;
 
 #nullable disable
 
@@ -29,7 +27,7 @@ namespace APICore.Data.Model
         {
             if (!optionsBuilder.IsConfigured)
             {
-               optionsBuilder.UseSqlServer("Server=TAURO\\SQLEXPRESS;Database=test;Trusted_Connection=True;");
+                optionsBuilder.UseSqlServer("Server=TAURO\\SQLEXPRESS;Database=test;Trusted_Connection=True;");
             }
         }
 

@@ -1,6 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.Collections.Generic;
 
 namespace APICore.Common.DTO.Response
 {
@@ -18,12 +16,14 @@ namespace APICore.Common.DTO.Response
 
         public int ContactStatus { get; set; }
     }
+
     public class GetContactListResponse
     {
         public GetContactListResponse()
         {
             ContactList = new List<ContactResponse>();
         }
+
         public List<ContactResponse> ContactList { get; set; }
     }
 }

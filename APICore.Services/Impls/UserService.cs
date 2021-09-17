@@ -6,7 +6,6 @@ using APICore.Services.Interfaces;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
 
 namespace APICore.Services.Impls
@@ -19,12 +18,13 @@ namespace APICore.Services.Impls
         {
             _uow = uow;
         }
+
         public Task<GetContactListResponse> GetContactList(GetContactListRequest requestData)
         {
             Console.WriteLine("1.1");
             GetContactListResponse response = new GetContactListResponse();
             Console.WriteLine("1.1.1");
-            List<Connection> connections = _uow.ConnectionRepository.FindBy(x => x.ConnectionsNodeFrom == requestData.UserId && _uow.NodeRepository.FindBy(y => y.NodeType == 3 && y.NodeId == x.ConnectionsNodeTo).ToArray().Length > 0 ).ToList();
+            List<Connection> connections = _uow.ConnectionRepository.FindBy(x => x.ConnectionsNodeFrom == requestData.UserId && _uow.NodeRepository.FindBy(y => y.NodeType == 3 && y.NodeId == x.ConnectionsNodeTo).ToArray().Length > 0).ToList();
             Console.WriteLine("1.2");
             foreach (Connection conn in connections)
             {
