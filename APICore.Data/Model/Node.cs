@@ -16,8 +16,11 @@ namespace APICore.Data.Model
         public int NodeType { get; set; }
 
         public virtual Channel Channel { get; set; }
+
         public virtual User User { get; set; }
+
         public virtual ICollection<Connection> ConnectionConnectionsNodeFromNavigations { get; set; }
+
         public virtual ICollection<Connection> ConnectionConnectionsNodeToNavigations { get; set; }
     }
 }

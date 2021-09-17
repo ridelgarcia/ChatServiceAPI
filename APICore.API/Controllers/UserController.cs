@@ -28,9 +28,24 @@ namespace APICore.API.Controllers
         {
             try
             {
-                Console.WriteLine("1");
                 var response = await _usrs.GetContactList(requestData);
-                Console.WriteLine("2");
+                return Ok(new ApiOkResponse(response));
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e);
+            }
+        }
+
+        [HttpPost("changeuserstatus")]
+        [AllowAnonymous]
+        [ProducesResponseType(typeof(ApiResponse), (int)HttpStatusCode.OK)]
+        [ProducesResponseType(typeof(BadRequestObjectResult), (int)HttpStatusCode.BadRequest)]
+        public async Task<IActionResult> ChangeUserStatus([FromBody] ChangeUserStatusRequest requestData)
+        {
+            try
+            {
+                var response = await _usrs.ChanageUserStatus(requestData);
                 return Ok(new ApiOkResponse(response));
             }
             catch (Exception e)

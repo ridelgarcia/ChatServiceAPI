@@ -9,6 +9,7 @@ namespace APICore.Data.Model
         public int ConnectionsNodeTo { get; set; }
 
         public virtual Node ConnectionsNodeFromNavigation { get; set; }
+
         public virtual Node ConnectionsNodeToNavigation { get; set; }
     }
 }
