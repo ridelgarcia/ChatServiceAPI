@@ -1,33 +1,37 @@
-﻿using APICore.API.BasicResponses;
-using APICore.Services.Interfaces;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc;
-using System;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using System.Net;
 using System.Threading.Tasks;
+using APICore.API.BasicResponses;
+using APICore.Common.DTO.Request;
+using APICore.Services.Interfaces;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Http;
+using Microsoft.AspNetCore.Mvc;
 
 namespace APICore.API.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class ContactTypeController : ControllerBase
+    public class ChatController : ControllerBase
     {
-        private IContactTypeService _cts;
+        private IChatService _cht;
 
-        public ContactTypeController(IContactTypeService cts)
+        public ChatController(IChatService cht)
         {
-            _cts = cts;
+            _cht = cht;
         }
 
-        [HttpGet("getallcontacttypes")]
+        [HttpPost("sendmessage")]
         [AllowAnonymous]
         [ProducesResponseType(typeof(ApiResponse), (int)HttpStatusCode.OK)]
         [ProducesResponseType(typeof(BadRequestObjectResult), (int)HttpStatusCode.BadRequest)]
-        public async Task<IActionResult> GetAllContactTypes()
+        public async Task<IActionResult> SendMessage([FromBody] SendMessageRequest requestData)
         {
             try
             {
-                var response = await _cts.GetAllContactTypes();
+                var response = await _cht.SendMessage(requestData);
                 return Ok(new ApiOkResponse(response));
             }
             catch (Exception e)

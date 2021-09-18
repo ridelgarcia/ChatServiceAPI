@@ -17,7 +17,7 @@ namespace APICore.Services.Impls
             _uow = uow;
         }
 
-        public Task<GetAllContactTypeResponse> GetAllContactTypes()
+        public async Task<GetAllContactTypeResponse> GetAllContactTypes()
         {
             List<ContactType> ctList = _uow.ContactTypeRepository.GetAll().ToList<ContactType>();
             var response = new GetAllContactTypeResponse();
@@ -30,7 +30,7 @@ namespace APICore.Services.Impls
 
                 response.ContactTypeList.Add(ctr);
             }
-            return Task.FromResult(response);
+            return await Task.FromResult(response);
         }
     }
 }

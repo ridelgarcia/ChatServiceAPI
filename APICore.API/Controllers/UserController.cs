@@ -33,7 +33,7 @@ namespace APICore.API.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e);
+                return BadRequest(e.ToString());
             }
         }
 
@@ -50,7 +50,7 @@ namespace APICore.API.Controllers
             }
             catch (Exception e)
             {
-                return BadRequest(e);
+                return BadRequest(e.ToString());
             }
         }
     }

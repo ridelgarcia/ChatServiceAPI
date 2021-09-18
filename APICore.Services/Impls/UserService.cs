@@ -19,7 +19,7 @@ namespace APICore.Services.Impls
             _uow = uow;
         }
 
-        public Task<GetContactListResponse> GetContactList(GetContactListRequest requestData)
+        public async Task<GetContactListResponse> GetContactList(GetContactListRequest requestData)
         {
             GetContactListResponse response = new GetContactListResponse();
             List<Connection> connections = _uow.ConnectionRepository.FindBy(x => x.ConnectionsNodeFrom == requestData.UserId).ToList();
@@ -35,22 +35,15 @@ namespace APICore.Services.Impls
                         User user = _uow.UserRepository.Find(x => x.UserId == contconn.ConnectionsNodeFrom);
                         if (user != null)
                         {
-                            var contact = new ContactResponse();
-                            contact.Id = user.UserId;
-                            contact.ContactName = user.UserName;
-                            contact.ContactLastName = user.UserLastName;
-                            contact.ContactEmail = user.UserEmail;
-                            contact.ContactAvatarUrl = user.UserAvatarUrl;
-                            contact.ContactStatus = user.UserStatus;
-                            response.ContactList.Add(contact);
+                            response.ContactList.Add(MapUserToContactResponse(user));
                         }
                     }
                 }
             }
-            return Task.FromResult(response);
+            return await Task.FromResult(response);
         }
 
-        public Task<ChangeUserStatusResponse> ChanageUserStatus(ChangeUserStatusRequest requestData)
+        public async Task<ChangeUserStatusResponse> ChanageUserStatus(ChangeUserStatusRequest requestData)
         {
             User user = _uow.UserRepository.Find(x => x.UserId == requestData.UserId);
             ChangeUserStatusResponse response = new ChangeUserStatusResponse();
@@ -58,16 +51,22 @@ namespace APICore.Services.Impls
             {
                 user.UserStatus = requestData.UserStatus;
                 _uow.UserRepository.Update(user);
-                var contact = new ContactResponse();
-                contact.Id = user.UserId;
-                contact.ContactName = user.UserName;
-                contact.ContactLastName = user.UserLastName;
-                contact.ContactEmail = user.UserEmail;
-                contact.ContactAvatarUrl = user.UserAvatarUrl;
-                contact.ContactStatus = user.UserStatus;
-                response.Contact = contact;
+                await _uow.CommitAsync();
+                response.Contact = MapUserToContactResponse(user);
             }
-            return Task.FromResult(response);
+            return await Task.FromResult(response);
+        }
+
+        private ContactResponse MapUserToContactResponse(User user)
+        {
+            var contact = new ContactResponse();
+            contact.Id = user.UserId;
+            contact.ContactName = user.UserName;
+            contact.ContactLastName = user.UserLastName;
+            contact.ContactEmail = user.UserEmail;
+            contact.ContactAvatarUrl = user.UserAvatarUrl;
+            contact.ContactStatus = user.UserStatus;
+            return contact;
         }
     }
 }

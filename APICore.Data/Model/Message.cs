@@ -1,4 +1,7 @@
-﻿#nullable disable
+﻿using System;
+using System.Collections.Generic;
+
+#nullable disable
 
 namespace APICore.Data.Model
 {
@@ -8,10 +11,6 @@ namespace APICore.Data.Model
         public int MessageChannelId { get; set; }
         public int MessageUserId { get; set; }
         public string MessageContent { get; set; }
-        public byte[] MessageTimestamp { get; set; }
-
-        public virtual Channel MessageChannel { get; set; }
-
-        public virtual User MessageUser { get; set; }
+        public DateTime? MessageTimestamp { get; set; }
     }
 }

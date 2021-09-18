@@ -26,6 +26,8 @@ namespace API
             services.AddDbContext<DBContext>();
             services.AddScoped<IContactTypeService, ContactTypeService>();
             services.AddScoped<IUserService, UserService>();
+            services.AddScoped<IChannelService, ChannelService>();
+            services.AddScoped<IChatService, ChatService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
         }
 

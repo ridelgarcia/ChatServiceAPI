@@ -40,7 +40,7 @@ namespace APICore.Data.Model
                 entity.ToTable("Channel");
 
                 entity.Property(e => e.ChannelId)
-                    .ValueGeneratedOnAdd()
+                    .ValueGeneratedNever()
                     .HasColumnName("channel_id");
 
                 entity.Property(e => e.ChannelType).HasColumnName("channel_type");
@@ -54,25 +54,12 @@ namespace APICore.Data.Model
 
             modelBuilder.Entity<Connection>(entity =>
             {
-                entity.HasKey(e => e.ConnectionsId);
-
-                entity.Property(e => e.ConnectionsId).HasColumnName("connections_id");
+                entity.HasKey(e => new { e.ConnectionsNodeFrom, e.ConnectionsNodeTo })
+                    .IsClustered(false);
 
                 entity.Property(e => e.ConnectionsNodeFrom).HasColumnName("connections_node_from");
 
                 entity.Property(e => e.ConnectionsNodeTo).HasColumnName("connections_node_to");
-
-                entity.HasOne(d => d.ConnectionsNodeFromNavigation)
-                    .WithMany(p => p.ConnectionConnectionsNodeFromNavigations)
-                    .HasForeignKey(d => d.ConnectionsNodeFrom)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Connections_Node_From_Id");
-
-                entity.HasOne(d => d.ConnectionsNodeToNavigation)
-                    .WithMany(p => p.ConnectionConnectionsNodeToNavigations)
-                    .HasForeignKey(d => d.ConnectionsNodeTo)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Connections_Node_To_Id");
             });
 
             modelBuilder.Entity<ContactType>(entity =>
@@ -89,6 +76,9 @@ namespace APICore.Data.Model
 
             modelBuilder.Entity<Message>(entity =>
             {
+                entity.HasKey(e => e.MessageId)
+                    .IsClustered(false);
+
                 entity.ToTable("Message");
 
                 entity.Property(e => e.MessageId).HasColumnName("message_id");
@@ -102,24 +92,11 @@ namespace APICore.Data.Model
                     .HasColumnName("message_content");
 
                 entity.Property(e => e.MessageTimestamp)
-                    .IsRequired()
-                    .IsRowVersion()
-                    .IsConcurrencyToken()
-                    .HasColumnName("message_timestamp");
+                    .HasColumnType("datetime")
+                    .HasColumnName("message_timestamp")
+                    .HasDefaultValueSql("(getdate())");
 
                 entity.Property(e => e.MessageUserId).HasColumnName("message_user_id");
-
-                entity.HasOne(d => d.MessageChannel)
-                    .WithMany(p => p.Messages)
-                    .HasForeignKey(d => d.MessageChannelId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Message_Channel_Id");
-
-                entity.HasOne(d => d.MessageUser)
-                    .WithMany(p => p.Messages)
-                    .HasForeignKey(d => d.MessageUserId)
-                    .OnDelete(DeleteBehavior.ClientSetNull)
-                    .HasConstraintName("FK_Message_User_Id");
             });
 
             modelBuilder.Entity<Node>(entity =>
@@ -163,7 +140,7 @@ namespace APICore.Data.Model
                 entity.ToTable("User");
 
                 entity.Property(e => e.UserId)
-                    .ValueGeneratedOnAdd()
+                    .ValueGeneratedNever()
                     .HasColumnName("user_id");
 
                 entity.Property(e => e.UserAvatarUrl)
