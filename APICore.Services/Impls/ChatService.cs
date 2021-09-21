@@ -27,22 +27,29 @@ namespace APICore.Services.Impls
             var connection = _uow.ConnectionRepository.Find(x => x.ConnectionsNodeFrom == requestData.UserId && x.ConnectionsNodeTo == requestData.ChannelId);
             if (user != null && channel != null && connection != null)
             {
-                Message message = new Message();
-                message.MessageUserId = user.UserId;
-                message.MessageChannelId = channel.ChannelId;
-                message.MessageContent = requestData.Content;
-                await _uow.MessageRepository.AddAsync(message);
-                await _uow.CommitAsync();
-                var connectionList = _uow.ConnectionRepository.FindAll(x => x.ConnectionsNodeTo == connection.ConnectionsNodeTo);
-                foreach (Connection conn in connectionList)
+                int userstatus = user.UserStatus;
+                if (userstatus != 0)
                 {
-                    var userToNotify = _uow.UserRepository.Find(x => x.UserId == conn.ConnectionsNodeFrom && x.UserStatus != 0);
-                    if (userToNotify != null)
+                    Message message = new Message();
+                    message.MessageUserId = user.UserId;
+                    message.MessageChannelId = channel.ChannelId;
+                    message.MessageContent = requestData.Content;
+                    await _uow.MessageRepository.AddAsync(message);
+                    await _uow.CommitAsync();
+                    response.Message = MapMessageToMessageResponse(message);
+                    var connectionList = _uow.ConnectionRepository.FindAll(x => x.ConnectionsNodeTo == connection.ConnectionsNodeTo);
+                    foreach (Connection conn in connectionList)
                     {
-                        var userResponse = MapUserToUserResponse(userToNotify);
-                        response.UsersToNotify.Add(userResponse);
+                        var userToNotify = _uow.UserRepository.Find(x => x.UserId == conn.ConnectionsNodeFrom && x.UserStatus != 0);
+                        if (userToNotify != null)
+                        {
+                            var userResponse = MapUserToUserResponse(userToNotify);
+                            response.UsersToNotify.Add(userResponse);
+                        }
                     }
                 }
+                else
+                    throw new Exception("User must be connected to send a message");
             }
             else
                 throw new Exception("Input Data are invalid");
@@ -61,6 +68,17 @@ namespace APICore.Services.Impls
                 UserStatus = user.UserStatus
             };
             return userResponse;
+        }
+
+        private MessageResponse MapMessageToMessageResponse(Message message)
+        {
+            MessageResponse response = new MessageResponse();
+            response.MessageId = message.MessageId;
+            response.ChannelId = message.MessageChannelId;
+            response.UserId = message.MessageUserId;
+            response.MessageContent = message.MessageContent;
+            response.MessageTimeStamp = (DateTime)message.MessageTimestamp;
+            return response;
         }
     }
 }

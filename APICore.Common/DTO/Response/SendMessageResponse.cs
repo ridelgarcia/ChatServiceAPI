@@ -9,8 +9,11 @@ namespace APICore.Common.DTO.Response
         public SendMessageResponse()
         {
             UsersToNotify = new List<UserResponse>();
+            Message = new MessageResponse();
         }
 
         public List<UserResponse> UsersToNotify { get; set; }
+
+        public MessageResponse Message { get; set; }
     }
 }

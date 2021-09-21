@@ -1,3 +1,4 @@
+using APICore.API.Hub;
 using APICore.Data.Model;
 using APICore.Data.UoW;
 using APICore.Services.Impls;
@@ -29,6 +30,8 @@ namespace API
             services.AddScoped<IChannelService, ChannelService>();
             services.AddScoped<IChatService, ChatService>();
             services.AddScoped<IUnitOfWork, UnitOfWork>();
+
+            services.AddSignalR();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -48,6 +51,7 @@ namespace API
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
+                endpoints.MapHub<ChatHub>("/hub/chat");
             });
         }
     }

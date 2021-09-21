@@ -52,7 +52,7 @@ namespace APICore.Services.Impls
                 user.UserStatus = requestData.UserStatus;
                 _uow.UserRepository.Update(user);
                 await _uow.CommitAsync();
-                response.Contact = MapUserToContactResponse(user);
+                response.User = MapUserToUserResponse(user);
             }
             return await Task.FromResult(response);
         }
@@ -67,6 +67,18 @@ namespace APICore.Services.Impls
             contact.ContactAvatarUrl = user.UserAvatarUrl;
             contact.ContactStatus = user.UserStatus;
             return contact;
+        }
+
+        private UserResponse MapUserToUserResponse(User user)
+        {
+            var response = new UserResponse();
+            response.UserId = user.UserId;
+            response.UserName = user.UserName;
+            response.UserLastName = user.UserLastName;
+            response.UserEmail = user.UserEmail;
+            response.UserAvatarUrl = user.UserAvatarUrl;
+            response.UserStatus = user.UserStatus;
+            return response;
         }
     }
 }

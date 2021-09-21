@@ -8,9 +8,9 @@ namespace APICore.Common.DTO.Response
     {
         public ChangeUserStatusResponse()
         {
-            Contact = new ContactResponse();
+            User = new UserResponse();
         }
 
-        public ContactResponse Contact { get; set; }
+        public UserResponse User { get; set; }
     }
 }
